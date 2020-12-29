@@ -3,6 +3,8 @@ import 'package:hashnode/functions/locator.dart';
 import 'package:hashnode/functions/webview.dart';
 import 'package:hashnode/models/featuredmodel.dart';
 import 'package:hashnode/service/api.dart';
+import 'package:hashnode/theme/style.dart';
+import 'package:hashnode/theme/text.dart';
 import 'package:hashnode/widget/lists.dart';
 
 var callApi = locator<Api>();
@@ -15,22 +17,37 @@ class FeaturedPage extends StatefulWidget {
 }
 
 class _FeaturedPageState extends State<FeaturedPage> {
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
   Future featured;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-          child: getApi(),
-        ),
-      ),
-    );
-  }
 
   @override
   void initState() {
     super.initState();
     featured = callApi.featuredListApi();
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _refreshIndicatorKey.currentState.show());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: RefreshIndicator(
+        key: _refreshIndicatorKey,
+        onRefresh: _refresh,
+        child: Center(
+          child: SingleChildScrollView(
+            child: getApi(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<Null> _refresh() async {
+    setState(() {
+      featured = callApi.featuredListApi();
+    });
   }
 
   getApi() {
@@ -49,21 +66,25 @@ class _FeaturedPageState extends State<FeaturedPage> {
               break;
             case ConnectionState.done:
               if (lists.hasError) {
-                return Text('Unable to get list, Retry!',
-                    style: TextStyle(
-                        color: Colors.red, fontWeight: FontWeight.bold));
+                return Text(
+                  CustomText().apiErr,
+                  style: AppTextStyle().errStyle,
+                );
               } else if (lists.hasData) {
                 if (lists.data.data == null) {
                   return Center(
                       child: Text(
-                    'Oops! No Testimonies Found!',
-                    style: TextStyle(color: Colors.red, fontSize: 20),
+                    CustomText().zeroAct,
+                    style: AppTextStyle().errStyle,
                   ));
                 } else {
                   return list(lists.data);
                 }
               } else {
-                return Text('No Internet Connection');
+                return Text(
+                  CustomText().noInt,
+                  style: AppTextStyle().errStyle,
+                );
               }
               break;
           }

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hashnode/functions/locator.dart';
 import 'package:hashnode/functions/webview.dart';
-import 'package:hashnode/models/CommunityModel.dart';
+import 'package:hashnode/models/communitymodel.dart';
 import 'package:hashnode/service/api.dart';
+import 'package:hashnode/theme/style.dart';
+import 'package:hashnode/theme/text.dart';
 import 'package:hashnode/widget/lists.dart';
 
-var callApi = locator<Api>();
+var callAPI = locator<Api>();
 
 class CommunityPage extends StatefulWidget {
   CommunityPage({Key key}) : super(key: key);
@@ -15,22 +17,37 @@ class CommunityPage extends StatefulWidget {
 }
 
 class _CommunityPageState extends State<CommunityPage> {
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
   Future community;
+
+  @override
+  void initState() {
+    super.initState();
+    community = callAPI.communityListApi();
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _refreshIndicatorKey.currentState.show());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-          child: _getApi(),
+      body: RefreshIndicator(
+        key: _refreshIndicatorKey,
+        onRefresh: _refresh,
+        child: Center(
+          child: SingleChildScrollView(
+            child: _getApi(),
+          ),
         ),
       ),
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    community = callApi.communityListApi();
+  Future<Null> _refresh() async {
+    setState(() {
+      community = callAPI.communityListApi();
+    });
   }
 
   _getApi() {
@@ -49,21 +66,25 @@ class _CommunityPageState extends State<CommunityPage> {
               break;
             case ConnectionState.done:
               if (lists.hasError) {
-                return Text('Unable to get list, Retry!',
-                    style: TextStyle(
-                        color: Colors.red, fontWeight: FontWeight.bold));
+                return Text(
+                  CustomText().apiErr,
+                  style: AppTextStyle().errStyle,
+                );
               } else if (lists.hasData) {
                 if (lists.data.data == null) {
                   return Center(
                       child: Text(
-                    'Oops! No Testimonies Found!',
-                    style: TextStyle(color: Colors.red, fontSize: 20),
+                    CustomText().zeroAct,
+                    style: AppTextStyle().errStyle,
                   ));
                 } else {
                   return _list(lists.data);
                 }
               } else {
-                return Text('No Internet Connection');
+                return Text(
+                  CustomText().noInt,
+                  style: AppTextStyle().errStyle,
+                );
               }
               break;
           }

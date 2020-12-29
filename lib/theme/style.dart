@@ -12,4 +12,15 @@ class AppTextStyle {
   final tabsStyle = GoogleFonts.alice(
     fontWeight: FontWeight.w700,
   );
+
+  final titleStyle = GoogleFonts.poppins(
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+  );
+
+  final errStyle = GoogleFonts.righteous(
+    color: AppColor().redCol,
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+  );
 }

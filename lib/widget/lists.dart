@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hashnode/theme/colors.dart';
+import 'package:hashnode/theme/style.dart';
 
 class BlogList extends StatelessWidget {
   final String img;
@@ -60,49 +61,54 @@ class BlogList extends StatelessWidget {
                 Text(title,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.poppins(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    )),
+                    style: AppTextStyle().titleStyle),
                 SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.only(right: 12),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Row(
-                        children: [
-                          Text(
-                            name,
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18,
-                              color: AppColor().mainColor,
-                            ),
-                          ),
-                          Text(
-                            '  @$uname',
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                              color: AppColor().primaryColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          IconButton(
-                              icon: Icon(Icons.comment_outlined),
-                              onPressed: () {}),
-                          Text('$commt',
-                              style: GoogleFonts.alice(
+                      Expanded(
+                        flex: 4,
+                        child: FittedBox(
+                          child: Row(
+                            children: [
+                              Text(
+                                name,
+                                style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18,
                                   color: AppColor().mainColor,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w900)),
-                        ],
+                                ),
+                              ),
+                              Text(
+                                '  @$uname',
+                                style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12,
+                                  color: AppColor().primaryColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            IconButton(
+                                icon: Icon(Icons.comment_outlined),
+                                onPressed: () {}),
+                            Text('$commt',
+                                style: GoogleFonts.alice(
+                                    color: AppColor().mainColor,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w900)),
+                          ],
+                        ),
                       ),
                     ],
                   ),

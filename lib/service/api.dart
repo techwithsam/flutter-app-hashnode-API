@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:hashnode/functions/locator.dart';
+import 'package:hashnode/models/bestmodel.dart';
 import 'package:hashnode/models/communitymodel.dart';
 import 'package:hashnode/models/featuredmodel.dart';
+import 'package:hashnode/models/newmodel.dart';
 import 'package:hashnode/service/urls.dart';
 import 'package:http/http.dart' as http;
 import 'baseapi.dart';
@@ -28,8 +30,34 @@ class Api extends BaseApi {
 
     var decode = json.decode(response.body);
     if (decode != null) {
-      CommunityModel list = CommunityModel.fromJson(decode);
-      return list;
+      CommunityModel listi = CommunityModel.fromJson(decode);
+      return listi;
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<BestModel> bestListApi() async {
+    var response = await http.get(url.bestUrl);
+
+    var decode = json.decode(response.body);
+    if (decode != null) {
+      BestModel listi = BestModel.fromJson(decode);
+      return listi;
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<NewModel> newListApi() async {
+    var response = await http.get(url.newUrl);
+
+    var decode = json.decode(response.body);
+    if (decode != null) {
+      NewModel listi = NewModel.fromJson(decode);
+      return listi;
     } else {
       return null;
     }

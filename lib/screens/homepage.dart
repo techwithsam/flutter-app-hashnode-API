@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:hashnode/functions/customFunc.dart';
+import 'package:hashnode/functions/locator.dart';
 import 'package:hashnode/theme/colors.dart';
 import 'package:hashnode/theme/style.dart';
+import 'package:hashnode/widget/noInt.dart';
 import 'best.dart';
 import 'community.dart';
 import 'featured.dart';
 import 'new.dart';
+
+var func = locator<CustomFunction>();
 
 class HomePgae extends StatefulWidget {
   HomePgae({Key key}) : super(key: key);
@@ -16,11 +21,25 @@ class HomePgae extends StatefulWidget {
 class _HomePgaeState extends State<HomePgae> with TickerProviderStateMixin {
   var _scaffoldKey = GlobalKey<ScaffoldState>();
   TabController _nestedTabController;
+  bool chinternet = true;
 
   @override
   void initState() {
     super.initState();
     _nestedTabController = TabController(length: 4, vsync: this);
+    Future<int> a = CustomFunction().checkInternetConnection();
+    a.then((value) {
+      print(value);
+      if (value == 0) {
+        setState(() {
+          chinternet = false;
+        });
+      } else {
+        setState(() {
+          chinternet = true;
+        });
+      }
+    });
   }
 
   @override
@@ -55,7 +74,13 @@ class _HomePgaeState extends State<HomePgae> with TickerProviderStateMixin {
             //   Icons.more_vert,
             //   color: AppColor().mainColor,
             // ),
-            onSelected: (v) {},
+            onSelected: (v) {
+              if (v == 0) {
+                func.showToast(message: 'Coming soon...');
+              } else if (v == 1) {
+                print('fdjkdjfd');
+              }
+            },
             itemBuilder: (context) => [
               PopupMenuItem(
                 child: Text('Settings'),
@@ -63,7 +88,7 @@ class _HomePgaeState extends State<HomePgae> with TickerProviderStateMixin {
               ),
               PopupMenuItem(
                 child: Text('About.'),
-                value: 0,
+                value: 1,
               ),
             ],
           )
@@ -90,15 +115,22 @@ class _HomePgaeState extends State<HomePgae> with TickerProviderStateMixin {
           ],
         ),
       ),
-      body: TabBarView(
-        controller: _nestedTabController,
-        children: <Widget>[
-          CommunityPage(),
-          BestPage(),
-          NewPage(),
-          FeaturedPage(),
-        ],
-      ),
+      body: !chinternet
+          ? NoInternet(callBack: retry)
+          : TabBarView(
+              controller: _nestedTabController,
+              children: <Widget>[
+                CommunityPage(),
+                BestPage(),
+                NewPage(),
+                FeaturedPage(),
+              ],
+            ),
     );
+  }
+
+  retry() {
+    return Navigator.push(
+        context, MaterialPageRoute(builder: (context) => HomePgae()));
   }
 }
