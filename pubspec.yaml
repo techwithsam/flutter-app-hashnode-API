@@ -36,6 +36,11 @@ dependencies:
   url_launcher:
   connectivity:
   flutter_inappwebview:
+  firebase_core:
+  package_info:
+  firebase_remote_config: 
+  share:
+  firebase_messaging:
 
 dev_dependencies:
   flutter_test:

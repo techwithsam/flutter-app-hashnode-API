@@ -3,14 +3,16 @@
 // Developer: Samuel Adekunle (acctgen1)
 // First Launch: ----
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'functions/locator.dart';
 import 'screens/homepage.dart';
 import 'theme/colors.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  setupLocator();
+  await Firebase.initializeApp();
+  setupLocator(); 
   runApp(MyApp());
 }
 

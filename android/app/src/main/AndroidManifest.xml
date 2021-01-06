@@ -1,11 +1,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.hashnode">
+    package="com.acctgen1.hashnode">
     
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
    <application
         android:label="Hashnode"
         android:icon="@mipmap/logo">
+        <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/logo" />
+        <meta-data android:name="com.google.firebase.messaging.default_notification_color" android:resource="@color/background" />
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -33,6 +39,10 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+              <action android:name="FLUTTER_NOTIFICATION_CLICK" />
+              <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
