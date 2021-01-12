@@ -19,7 +19,7 @@ class BestPage extends StatefulWidget {
 class _BestPageState extends State<BestPage> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
-  Future best;
+  Future<BestModel> best;
 
   @override
   void initState() {
@@ -66,10 +66,10 @@ class _BestPageState extends State<BestPage> {
               break;
             case ConnectionState.done:
               if (lists.hasError) {
-                return Text(
+                return Text( 
                   CustomText().apiErr,
                   style: AppTextStyle().errStyle,
-                );
+                ); 
               } else if (lists.hasData) {
                 if (lists.data.data == null) {
                   return Center(

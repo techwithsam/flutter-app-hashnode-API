@@ -38,7 +38,7 @@ class _HomePgaeState extends State<HomePgae> with TickerProviderStateMixin {
   var messbody;
   var imageurl;
   var newdata;
-  var navigation;
+  var navigation; 
 
   _register() {
     _firebaseMessaging.getToken().then((token) => print(token));
@@ -83,23 +83,29 @@ class _HomePgaeState extends State<HomePgae> with TickerProviderStateMixin {
             ),
             actions: <Widget>[
               FlatButton(
-                child: newdata == null ? Text('Close') : Text(newdata),
-                onPressed: () {
-                  print(navigation);
-                  if (navigation != null) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => BlogViews(
-                                  title: 'Hashnode',
-                                  urli: '$navigation',
-                                )));
-                  } else {
+                  onPressed: () {
                     Navigator.of(context).pop();
-                    print(navigation);
-                  }
-                },
-              )
+                  },
+                  child: Text('Close')),
+              newdata == null
+                  ? Text('')
+                  : FlatButton(
+                      child: Text(newdata),
+                      onPressed: () {
+                        if (navigation != null) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => BlogViews(
+                                        title: 'Hashnode',
+                                        urli: '$navigation',
+                                      )));
+                          Navigator.of(context).pop();
+                        } else {
+                          Navigator.of(context).pop();
+                        }
+                      },
+                    )
             ],
           );
         },
@@ -138,22 +144,29 @@ class _HomePgaeState extends State<HomePgae> with TickerProviderStateMixin {
           ),
           actions: <Widget>[
             FlatButton(
-              child: newdata == null ? Text('Close') : Text(newdata),
-              onPressed: () {
-                if (navigation != null) {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => BlogViews(
-                                title: 'Hashnode',
-                                urli: '$navigation',
-                              )));
-                } else {
+                onPressed: () {
                   Navigator.of(context).pop();
-                  print(navigation);
-                }
-              },
-            )
+                },
+                child: Text('Close')),
+            newdata == null
+                ? Text('')
+                : FlatButton(
+                    child: Text(newdata),
+                    onPressed: () {
+                      if (navigation != null) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BlogViews(
+                                      title: 'Hashnode',
+                                      urli: '$navigation',
+                                    )));
+                        Navigator.of(context).pop();
+                      } else {
+                        Navigator.of(context).pop();
+                      }
+                    },
+                  )
           ],
         ),
       );
@@ -191,22 +204,29 @@ class _HomePgaeState extends State<HomePgae> with TickerProviderStateMixin {
           ),
           actions: <Widget>[
             FlatButton(
-              child: newdata == null ? Text('Close') : Text(newdata),
-              onPressed: () {
-                if (navigation != null) {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => BlogViews(
-                                title: 'Hashnode',
-                                urli: '$navigation',
-                              )));
-                } else {
+                onPressed: () {
                   Navigator.of(context).pop();
-                  print(navigation);
-                }
-              },
-            )
+                },
+                child: Text('Close')),
+            newdata == null
+                ? Text('')
+                : FlatButton(
+                    child: Text(newdata),
+                    onPressed: () {
+                      if (navigation != null) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BlogViews(
+                                      title: 'Hashnode',
+                                      urli: '$navigation',
+                                    )));
+                        Navigator.of(context).pop();
+                      } else {
+                        Navigator.of(context).pop();
+                      }
+                    },
+                  )
           ],
         ),
       );
@@ -347,13 +367,14 @@ class _HomePgaeState extends State<HomePgae> with TickerProviderStateMixin {
             onSelected: (v) {
               if (v == 0) {
                 func.showToast(message: 'Coming soon...');
+                _showSnackbar();
               } else if (v == 1) {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => ContactDev()));
               } else if (v == 2) {
                 Share.share(
                     'Hi dev, kindly download this app to check hashnode featured, best, new'
-                    ', and community articles at your finger tips --> $playStoreUrl');
+                    ', and community articles with ease --> $playStoreUrl');
               } else if (v == 3) {
                 launch(playStoreUrl);
               } else if (v == 4) {
@@ -458,5 +479,17 @@ class _HomePgaeState extends State<HomePgae> with TickerProviderStateMixin {
   retry() {
     return Navigator.push(
         context, MaterialPageRoute(builder: (context) => HomePgae()));
+  }
+
+  void _showSnackbar() {
+    _scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        content: Text('Coming Soon...'),
+        action: SnackBarAction(
+          label: 'Close',
+          onPressed: () => _scaffoldKey.currentState.removeCurrentSnackBar(),
+        ),
+      ),
+    );
   }
 }

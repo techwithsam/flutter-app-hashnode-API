@@ -12,7 +12,7 @@ class BestModel {
     if (this.data != null) {
       data['data'] = this.data.toJson();
     }
-    return data;
+    return data; 
   }
 }
 
@@ -42,7 +42,7 @@ class Data {
 class StoriesFeed {
   String title;
   Author author;
-  String coverImage;
+  String coverImage; 
   String slug;
   int replyCount;
 

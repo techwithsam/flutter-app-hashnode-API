@@ -25,7 +25,10 @@ class _BlogViewsState extends State<BlogViews> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text(title, style: AppTextStyle().appbarStyle,),
+        title: Text(
+          title,
+          style: AppTextStyle().appbarStyle,
+        ),
         centerTitle: true,
         elevation: 0,
         actions: [

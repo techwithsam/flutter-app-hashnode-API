@@ -14,7 +14,7 @@ class AppTextStyle {
   );
 
   final titleStyle = GoogleFonts.poppins(
-    fontSize: 18,
+    fontSize: 18, 
     fontWeight: FontWeight.w600,
   );
 
