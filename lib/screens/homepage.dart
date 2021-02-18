@@ -1,15 +1,17 @@
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hashnode/functions/customFunc.dart';
 import 'package:hashnode/functions/locator.dart';
-import 'package:hashnode/functions/webview.dart';
 import 'package:hashnode/theme/colors.dart';
 import 'package:hashnode/theme/style.dart';
 import 'package:hashnode/widget/noInt.dart';
+import 'package:hashnode/widget/notification_dialog.dart';
+import 'package:package_info/package_info.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'best.dart';
@@ -34,232 +36,98 @@ class _HomePgaeState extends State<HomePgae> with TickerProviderStateMixin {
   TabController _nestedTabController;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   bool chinternet = true, visinew = false;
-  var messtitle;
-  var messbody;
-  var imageurl;
-  var newdata;
-  var navigation; 
+  String notiTitle, notiBody, notiImage, notiBtnName, notiBtnAction;
 
   _register() {
     _firebaseMessaging.getToken().then((token) => print(token));
   }
 
   void getMessage() {
-    _firebaseMessaging.configure(onMessage: (Map<String, dynamic> message) {
-      messtitle = message["data"]["title"];
-      messbody = message["data"]["body"];
-      imageurl = message["data"]["image"];
-      newdata = message["data"]["newdata"];
-      navigation = message["data"]["navigate"];
-      return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            content: ListView(
-              shrinkWrap: true,
-              children: <Widget>[
-                ListTile(
-                  //checking if input sent is not null
-                  title: Center(
-                    child: Text(
-                      (messtitle == null ? 'Hashnode' : messtitle),
-                      style: GoogleFonts.aBeeZee(
-                          color: AppColor().mainColor,
-                          fontSize: 18,
-                          decoration: TextDecoration.underline,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  subtitle: Text(
-                    messbody == null ? 'No message sent!' : messbody,
-                    style: GoogleFonts.aBeeZee(fontSize: 14),
-                  ),
-                ),
-                SizedBox(height: 5),
-                imageurl == null
-                    ? Image.asset('assets/noimg.png')
-                    : Image.network(imageurl)
-              ],
-            ),
-            actions: <Widget>[
-              FlatButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text('Close')),
-              newdata == null
-                  ? Text('')
-                  : FlatButton(
-                      child: Text(newdata),
-                      onPressed: () {
-                        if (navigation != null) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => BlogViews(
-                                        title: 'Hashnode',
-                                        urli: '$navigation',
-                                      )));
-                          Navigator.of(context).pop();
-                        } else {
-                          Navigator.of(context).pop();
-                        }
-                      },
-                    )
-            ],
-          );
-        },
-      );
-    }, onResume: (Map<String, dynamic> message) {
-      messtitle = message["data"]["title"];
-      messbody = message["data"]["body"];
-      imageurl = message["data"]["image"];
-      newdata = message["data"]["newdata"];
-      navigation = message["data"]["navigate"];
-      return showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          content: ListView(
-            shrinkWrap: true,
-            children: <Widget>[
-              ListTile(
-                  title: Center(
-                    child: Text(
-                      (messtitle == null ? 'Hashnode' : messtitle),
-                      style: TextStyle(
-                          color: AppColor().mainColor,
-                          fontSize: 18,
-                          decoration: TextDecoration.underline,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  subtitle: Text(
-                    messbody == null ? 'No message sent!' : messbody,
-                    style: TextStyle(fontSize: 14),
-                  )),
-              imageurl == null
-                  ? Image.asset('assets/noimg.png')
-                  : Image.network(imageurl)
-            ],
-          ),
-          actions: <Widget>[
-            FlatButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('Close')),
-            newdata == null
-                ? Text('')
-                : FlatButton(
-                    child: Text(newdata),
-                    onPressed: () {
-                      if (navigation != null) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => BlogViews(
-                                      title: 'Hashnode',
-                                      urli: '$navigation',
-                                    )));
-                        Navigator.of(context).pop();
-                      } else {
-                        Navigator.of(context).pop();
-                      }
-                    },
-                  )
-          ],
-        ),
-      );
-    }, onLaunch: (Map<String, dynamic> message) {
-      messtitle = message["data"]["title"];
-      messbody = message["data"]["body"];
-      imageurl = message["data"]["image"];
-      newdata = message["data"]["newdata"];
-      navigation = message["data"]["navigate"];
-      return showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          content: ListView(
-            shrinkWrap: true,
-            children: <Widget>[
-              ListTile(
-                  title: Center(
-                    child: Text(
-                      (messtitle == null ? 'Hashnode' : messtitle),
-                      style: TextStyle(
-                          color: AppColor().mainColor,
-                          decoration: TextDecoration.underline,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  subtitle: Text(
-                    messbody == null ? 'No message sent' : messbody,
-                    style: TextStyle(fontSize: 14),
-                  )),
-              imageurl == null
-                  ? Image.asset('assets/noimg.png')
-                  : Image.network(imageurl)
-            ],
-          ),
-          actions: <Widget>[
-            FlatButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('Close')),
-            newdata == null
-                ? Text('')
-                : FlatButton(
-                    child: Text(newdata),
-                    onPressed: () {
-                      if (navigation != null) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => BlogViews(
-                                      title: 'Hashnode',
-                                      urli: '$navigation',
-                                    )));
-                        Navigator.of(context).pop();
-                      } else {
-                        Navigator.of(context).pop();
-                      }
-                    },
-                  )
-          ],
-        ),
-      );
-    });
+    _firebaseMessaging.configure(
+      onMessage: (Map<dynamic, dynamic> message) async {
+        notiTitle = message["data"]["title"];
+        notiBody = message["data"]["body"];
+        notiImage = message["data"]["image"];
+        notiBtnName = message["data"]["btnName"];
+        notiBtnAction = message["data"]["btnAction"];
+        return showDialog(
+            context: context,
+            builder: (_) {
+              return NotificationDialog(
+                title: '$notiTitle',
+                body: '$notiBody',
+                img: '$notiImage',
+                btnAction: '$notiBtnAction',
+                btnName: '$notiBtnName',
+              );
+            });
+      },
+      onResume: (Map<dynamic, dynamic> message) async {
+        notiTitle = message["data"]["title"];
+        notiBody = message["data"]["body"];
+        notiImage = message["data"]["image"];
+        notiBtnName = message["data"]["btnName"];
+        notiBtnAction = message["data"]["btnAction"];
+        return showDialog(
+            context: context,
+            builder: (_) {
+              return NotificationDialog(
+                title: '$notiTitle',
+                body: '$notiBody',
+                img: '$notiImage',
+                btnAction: '$notiBtnAction',
+                btnName: '$notiBtnName',
+              );
+            });
+      },
+      onLaunch: (Map<dynamic, dynamic> message) async {
+        notiTitle = message["data"]["title"];
+        notiBody = message["data"]["body"];
+        notiImage = message["data"]["image"];
+        notiBtnName = message["data"]["btnName"];
+        notiBtnAction = message["data"]["btnAction"];
+        return showDialog(
+            context: context,
+            builder: (_) {
+              return NotificationDialog(
+                title: '$notiTitle',
+                body: '$notiBody',
+                img: '$notiImage',
+                btnAction: '$notiBtnAction',
+                btnName: '$notiBtnName',
+              );
+            });
+      },
+    );
   }
 
-  // void versionCheck() async {
-  //   final PackageInfo info = await PackageInfo.fromPlatform();
-  //   double currentVersion =
-  //       double.parse(info.version.trim().replaceAll(".", ""));
+  void versionCheck() async {
+    final PackageInfo info = await PackageInfo.fromPlatform();
+    double currentVersion =
+        double.parse(info.version.trim().replaceAll(".", ""));
 
-  //   final RemoteConfig remoteConfig = await RemoteConfig.instance;
-  //   try {
-  //     await remoteConfig.fetch();
-  //     await remoteConfig.activateFetched();
-  //     remoteConfig.getString('force_update_current_version');
-  //     double newVersion = double.parse(remoteConfig
-  //         .getString('force_update_current_version')
-  //         .trim()
-  //         .replaceAll(".", ""));
+    final RemoteConfig remoteConfig = await RemoteConfig.instance;
+    try {
+      await remoteConfig.fetch();
+      await remoteConfig.activateFetched();
+      remoteConfig.getString('force_update_current_version');
+      double newVersion = double.parse(remoteConfig
+          .getString('force_update_current_version')
+          .trim()
+          .replaceAll(".", ""));
 
-  //     if (newVersion > currentVersion) {
-  //       setState(() {
-  //         visinew = true;
-  //       });
-  //       _showVersionDialog(context);
-  //     }
-  //   } on FetchThrottledException catch (exception) {
-  //     Text('$exception - ****************exception check');
-  //   } catch (exception) {}
-  // }
+      if (newVersion > currentVersion) {
+        setState(() {
+          visinew = true;
+        });
+        _showVersionDialog(context);
+      }
+    } on FetchThrottledException catch (exception) {
+      Text('$exception - ****************exception check');
+    } catch (exception) {}
+  }
 
-  showVersionDialog(context) async {
+  _showVersionDialog(context) async {
     await showDialog<String>(
       context: context,
       barrierDismissible: false,
@@ -319,7 +187,7 @@ class _HomePgaeState extends State<HomePgae> with TickerProviderStateMixin {
         const IosNotificationSettings(sound: true, alert: true, badge: true));
     _firebaseMessaging.onIosSettingsRegistered
         .listen((IosNotificationSettings setting) {});
-    //versionCheck();
+    versionCheck();
     _nestedTabController = TabController(length: 4, vsync: this);
     Future<int> a = CustomFunction().checkInternetConnection();
     a.then((value) {
@@ -379,6 +247,17 @@ class _HomePgaeState extends State<HomePgae> with TickerProviderStateMixin {
                 launch(playStoreUrl);
               } else if (v == 4) {
                 launch('https://api.hashnode.com/');
+              } else {
+                showLicensePage(
+                  context: context,
+                  applicationVersion: '1.0.2',
+                  applicationName: 'Hashnode App build with flutter',
+                  applicationIcon: Image.asset(
+                    'assets/logo.jpg',
+                    height: 32,
+                    width: 32,
+                  ),
+                );
               }
             },
             itemBuilder: (context) => [
@@ -436,6 +315,10 @@ class _HomePgaeState extends State<HomePgae> with TickerProviderStateMixin {
                       ]),
                 ),
                 value: 4,
+              ),
+              PopupMenuItem(
+                child: Text('View License'),
+                value: 5,
               ),
             ],
           )

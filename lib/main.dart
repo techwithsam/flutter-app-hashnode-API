@@ -5,6 +5,7 @@
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'functions/locator.dart';
 import 'screens/homepage.dart';
 import 'theme/colors.dart';
@@ -13,7 +14,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   setupLocator();
-  runApp(MyApp());
+  runApp(MyApp());      
 }
 
 class MyApp extends StatelessWidget {
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         accentColor: AppColor().mainColor,
         primaryIconTheme: IconThemeData(color: AppColor().mainColor),
         visualDensity: VisualDensity.comfortable,
+        textTheme: GoogleFonts.poppinsTextTheme()
       ),
       debugShowCheckedModeBanner: false,
       home: HomePgae(),
