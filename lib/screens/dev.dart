@@ -81,7 +81,7 @@ class _ContactDevState extends State<ContactDev> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        launch('https://twitter.com/iamsamadekunle');
+                        launch('https://twitter.com/techwithsam_');
                       },
                       child: Column(
                         children: [
@@ -99,7 +99,7 @@ class _ContactDevState extends State<ContactDev> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        launch('https://github.com/acctgen1');
+                        launch('https://github.com/techwithsam');
                       },
                       child: Column(
                         children: [
@@ -117,7 +117,7 @@ class _ContactDevState extends State<ContactDev> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        launch('https://acctgen1.medium.com');
+                        launch('https://techwithsam.medium.com');
                       },
                       child: Column(
                         children: [
@@ -135,7 +135,7 @@ class _ContactDevState extends State<ContactDev> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        launch('https://acctgen1.hashnode.dev');
+                        launch('https://techwithsam.hashnode.dev');
                       },
                       child: Column(
                         children: [
@@ -153,7 +153,7 @@ class _ContactDevState extends State<ContactDev> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        launch('https://www.linkedin.com/in/acctgen1/');
+                        launch('https://linkedin.com/in/techwithsam/');
                       },
                       child: Column(
                         children: [
