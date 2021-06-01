@@ -14,7 +14,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   setupLocator();
-  runApp(MyApp());      
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -22,13 +22,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter App + Hashnode API',
-      theme: ThemeData( 
-        primaryColor: AppColor().mainColor,
-        accentColor: AppColor().mainColor,
-        primaryIconTheme: IconThemeData(color: AppColor().mainColor),
-        visualDensity: VisualDensity.comfortable,
-        textTheme: GoogleFonts.poppinsTextTheme()
-      ),
+      theme: ThemeData(
+          primaryColor: AppColor().mainColor,
+          accentColor: AppColor().mainColor,
+          primaryIconTheme: IconThemeData(color: AppColor().mainColor),
+          visualDensity: VisualDensity.comfortable,
+          textTheme: GoogleFonts.poppinsTextTheme()),
       debugShowCheckedModeBanner: false,
       home: HomePgae(),
     );
