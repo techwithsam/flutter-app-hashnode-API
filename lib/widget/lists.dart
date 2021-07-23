@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hashnode/theme/colors.dart';
-import 'package:hashnode/theme/style.dart';
+import 'package:hashnode/style/colors.dart';
+import 'package:hashnode/style/style.dart';
 
 class BlogList extends StatelessWidget {
   final String img;

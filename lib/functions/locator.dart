@@ -1,7 +1,7 @@
 import 'package:get_it/get_it.dart';
+import 'package:hashnode/core/api.dart';
+import 'package:hashnode/core/urls.dart';
 import 'package:hashnode/functions/customFunc.dart';
-import 'package:hashnode/service/api.dart';
-import 'package:hashnode/service/urls.dart';
 
 GetIt locator = GetIt.instance;
 

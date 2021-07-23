@@ -1,9 +1,9 @@
-class CommunityModel {
+class NewModel {
   Data data;
 
-  CommunityModel({this.data});
+  NewModel({this.data});
 
-  CommunityModel.fromJson(Map<String, dynamic> json) {
+  NewModel.fromJson(Map<String, dynamic> json) {
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
 
@@ -23,7 +23,8 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['storiesFeed'] != null) {
-      storiesFeed = new List<StoriesFeed>();
+      List<StoriesFeed> _storiesFeed = [];
+      storiesFeed = _storiesFeed;
       json['storiesFeed'].forEach((v) {
         storiesFeed.add(new StoriesFeed.fromJson(v));
       });

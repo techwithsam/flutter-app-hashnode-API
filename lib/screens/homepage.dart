@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hashnode/functions/customFunc.dart';
 import 'package:hashnode/functions/locator.dart';
-import 'package:hashnode/theme/colors.dart';
-import 'package:hashnode/theme/style.dart';
+import 'package:hashnode/style/colors.dart';
+import 'package:hashnode/style/style.dart';
 import 'package:hashnode/widget/noInt.dart';
 import 'package:hashnode/widget/notification_dialog.dart';
 import 'package:package_info/package_info.dart';
@@ -365,12 +365,13 @@ class _HomePgaeState extends State<HomePgae> with TickerProviderStateMixin {
   }
 
   void _showSnackbar() {
-    _scaffoldKey.currentState.showSnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Coming Soon...'),
         action: SnackBarAction(
           label: 'Close',
-          onPressed: () => _scaffoldKey.currentState.removeCurrentSnackBar(),
+          onPressed: () =>
+              ScaffoldMessenger.of(context).removeCurrentSnackBar(),
         ),
       ),
     );

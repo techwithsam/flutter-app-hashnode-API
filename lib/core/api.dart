@@ -1,10 +1,10 @@
 import 'dart:convert';
+import 'package:hashnode/core/models/bestmodel.dart';
+import 'package:hashnode/core/models/communitymodel.dart';
+import 'package:hashnode/core/models/featuredmodel.dart';
+import 'package:hashnode/core/models/newmodel.dart';
+import 'package:hashnode/core/urls.dart';
 import 'package:hashnode/functions/locator.dart';
-import 'package:hashnode/models/bestmodel.dart';
-import 'package:hashnode/models/communitymodel.dart';
-import 'package:hashnode/models/featuredmodel.dart';
-import 'package:hashnode/models/newmodel.dart';
-import 'package:hashnode/service/urls.dart';
 import 'package:http/http.dart' as http;
 import 'baseapi.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hashnode/functions/webview.dart';
-import 'package:hashnode/theme/colors.dart';
+import 'package:hashnode/style/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class NotificationDialog extends StatefulWidget {
@@ -49,7 +49,7 @@ class _NotificationDialogState extends State<NotificationDialog> {
         ],
       ),
       actions: <Widget>[
-        OutlineButton(
+        OutlinedButton(
           onPressed: () {
             if (widget.btnName == 'Read Article') {
               Navigator.of(context).pop();
@@ -70,10 +70,13 @@ class _NotificationDialogState extends State<NotificationDialog> {
             '${widget.btnName}',
             style: GoogleFonts.poppins(color: AppColor().mainColor),
           ),
-          highlightedBorderColor: AppColor().mainColor,
-          padding: EdgeInsets.only(left: 14, right: 14, top: 8, bottom: 8),
-          borderSide: BorderSide(color: AppColor().mainColor),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          style: OutlinedButton.styleFrom(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            padding: EdgeInsets.only(left: 14, right: 14, top: 8, bottom: 8),
+            shadowColor: AppColor().mainColor,
+            primary: AppColor().mainColor,
+          ),
         ),
       ],
     );

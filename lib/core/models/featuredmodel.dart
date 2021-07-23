@@ -1,9 +1,9 @@
-class NewModel {
+class FeaturedModel {
   Data data;
 
-  NewModel({this.data});
+  FeaturedModel({this.data});
 
-  NewModel.fromJson(Map<String, dynamic> json) {
+  FeaturedModel.fromJson(Map<String, dynamic> json) {
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
 
@@ -23,7 +23,8 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['storiesFeed'] != null) {
-      storiesFeed = new List<StoriesFeed>();
+      List<StoriesFeed> _storiesFeed = [];
+      storiesFeed = _storiesFeed;
       json['storiesFeed'].forEach((v) {
         storiesFeed.add(new StoriesFeed.fromJson(v));
       });
@@ -44,10 +45,16 @@ class StoriesFeed {
   Author author;
   String coverImage;
   String slug;
+  String dateFeatured;
   int replyCount;
 
   StoriesFeed(
-      {this.title, this.author, this.coverImage, this.slug, this.replyCount});
+      {this.title,
+      this.author,
+      this.coverImage,
+      this.slug,
+      this.dateFeatured,
+      this.replyCount});
 
   StoriesFeed.fromJson(Map<String, dynamic> json) {
     title = json['title'];
@@ -55,6 +62,7 @@ class StoriesFeed {
         json['author'] != null ? new Author.fromJson(json['author']) : null;
     coverImage = json['coverImage'];
     slug = json['slug'];
+    dateFeatured = json['dateFeatured'];
     replyCount = json['replyCount'];
   }
 
@@ -66,6 +74,7 @@ class StoriesFeed {
     }
     data['coverImage'] = this.coverImage;
     data['slug'] = this.slug;
+    data['dateFeatured'] = this.dateFeatured;
     data['replyCount'] = this.replyCount;
     return data;
   }

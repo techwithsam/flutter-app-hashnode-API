@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:hashnode/theme/style.dart';
+import 'package:hashnode/style/style.dart';
 
 class BlogViews extends StatefulWidget {
   final String urli;

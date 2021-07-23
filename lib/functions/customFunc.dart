@@ -1,7 +1,7 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:hashnode/theme/colors.dart';
+import 'package:hashnode/style/colors.dart';
 
 class CustomFunction {
   showToast({dynamic message}) {

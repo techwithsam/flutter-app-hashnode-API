@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hashnode/core/api.dart';
+import 'package:hashnode/core/models/communitymodel.dart';
 import 'package:hashnode/functions/locator.dart';
 import 'package:hashnode/functions/webview.dart';
-import 'package:hashnode/models/communitymodel.dart';
-import 'package:hashnode/service/api.dart';
-import 'package:hashnode/theme/style.dart';
-import 'package:hashnode/theme/text.dart';
+import 'package:hashnode/style/style.dart';
+import 'package:hashnode/style/text.dart';
 import 'package:hashnode/widget/lists.dart';
 
 var callAPI = locator<Api>();

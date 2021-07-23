@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'functions/locator.dart';
 import 'screens/homepage.dart';
-import 'theme/colors.dart';
+import 'style/colors.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

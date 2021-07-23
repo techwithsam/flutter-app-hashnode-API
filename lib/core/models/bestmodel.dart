@@ -12,7 +12,7 @@ class BestModel {
     if (this.data != null) {
       data['data'] = this.data.toJson();
     }
-    return data; 
+    return data;
   }
 }
 
@@ -23,7 +23,8 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['storiesFeed'] != null) {
-      storiesFeed = new List<StoriesFeed>();
+      List<StoriesFeed> _storiesFeed = [];
+      storiesFeed = _storiesFeed;
       json['storiesFeed'].forEach((v) {
         storiesFeed.add(new StoriesFeed.fromJson(v));
       });
@@ -42,7 +43,7 @@ class Data {
 class StoriesFeed {
   String title;
   Author author;
-  String coverImage; 
+  String coverImage;
   String slug;
   int replyCount;
 
