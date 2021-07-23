@@ -3,8 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hashnode/style/colors.dart';
 
 class NoInternet extends StatelessWidget {
-  final void Function() callBack;
-  const NoInternet({Key key, @required this.callBack}) : super(key: key);
+  final void Function()? callBack;
+  const NoInternet({Key? key, @required this.callBack}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class NoInternet extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(25)),
               ),
-              onPressed: () => callBack(),
+              onPressed: () => callBack!(),
               child: Text(
                 'Refresh'.toUpperCase(),
               ),

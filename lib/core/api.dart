@@ -12,8 +12,8 @@ var url = locator<BaseUrl>();
 
 class Api extends BaseApi {
   @override
-  Future<FeaturedModel> featuredListApi() async {
-    var response = await http.get(url.featuredUrl);
+  Future<FeaturedModel?> featuredListApi() async {
+    var response = await http.get(Uri.parse(url.featuredUrl));
 
     var decode = json.decode(response.body);
     if (decode != null) {
@@ -25,8 +25,8 @@ class Api extends BaseApi {
   }
 
   @override
-  Future<CommunityModel> communityListApi() async {
-    var response = await http.get(url.communityUrl);
+  Future<CommunityModel?> communityListApi() async {
+    var response = await http.get(Uri.parse(url.communityUrl));
 
     var decode = json.decode(response.body);
     if (decode != null) {
@@ -38,8 +38,8 @@ class Api extends BaseApi {
   }
 
   @override
-  Future<BestModel> bestListApi() async {
-    var response = await http.get(url.bestUrl);
+  Future<BestModel?> bestListApi() async {
+    var response = await http.get(Uri.parse(url.bestUrl));
 
     var decode = json.decode(response.body);
     if (decode != null) {
@@ -51,8 +51,8 @@ class Api extends BaseApi {
   }
 
   @override
-  Future<NewModel> newListApi() async {
-    var response = await http.get(url.newUrl);
+  Future<NewModel?> newListApi() async {
+    var response = await http.get(Uri.parse(url.newUrl));
 
     var decode = json.decode(response.body);
     if (decode != null) {

@@ -10,7 +10,7 @@ import 'package:hashnode/widget/lists.dart';
 var callAPI = locator<Api>();
 
 class CommunityPage extends StatefulWidget {
-  CommunityPage({Key key}) : super(key: key);
+  CommunityPage({Key? key}) : super(key: key);
 
   @override
   _CommunityPageState createState() => _CommunityPageState();
@@ -19,14 +19,14 @@ class CommunityPage extends StatefulWidget {
 class _CommunityPageState extends State<CommunityPage> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
-  Future community;
+  Future<CommunityModel>? community;
 
   @override
   void initState() {
     super.initState();
-    community = callAPI.communityListApi();
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => _refreshIndicatorKey.currentState.show());
+    community = callAPI.communityListApi() as Future<CommunityModel>?;
+    WidgetsBinding.instance!
+        .addPostFrameCallback((_) => _refreshIndicatorKey.currentState!.show());
   }
 
   @override
@@ -46,7 +46,7 @@ class _CommunityPageState extends State<CommunityPage> {
 
   Future<Null> _refresh() async {
     setState(() {
-      community = callAPI.communityListApi();
+      community = callAPI.communityListApi() as Future<CommunityModel>?;
     });
   }
 
@@ -57,13 +57,13 @@ class _CommunityPageState extends State<CommunityPage> {
           switch (lists.connectionState) {
             case ConnectionState.none:
               return Text('');
-              break;
+
             case ConnectionState.waiting:
               return Center(child: CircularProgressIndicator(strokeWidth: 1.1));
-              break;
+
             case ConnectionState.active:
               return Text('');
-              break;
+
             case ConnectionState.done:
               if (lists.hasError) {
                 return Text(
@@ -71,7 +71,7 @@ class _CommunityPageState extends State<CommunityPage> {
                   style: AppTextStyle().errStyle,
                 );
               } else if (lists.hasData) {
-                if (lists.data.data == null) {
+                if (lists.data!.data == null) {
                   return Center(
                       child: Text(
                     CustomText().zeroAct,
@@ -86,15 +86,13 @@ class _CommunityPageState extends State<CommunityPage> {
                   style: AppTextStyle().errStyle,
                 );
               }
-              break;
           }
-          return Text('');
         });
   }
 
-  _list(CommunityModel data) {
+  _list(CommunityModel? data) {
     return ListView.builder(
-      itemCount: data.data.storiesFeed.length,
+      itemCount: data!.data!.storiesFeed!.length,
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
@@ -104,17 +102,17 @@ class _CommunityPageState extends State<CommunityPage> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => BlogViews(
-                          title: data.data.storiesFeed[index].title,
+                          title: data.data!.storiesFeed![index].title,
                           urli:
-                              'https://${data.data.storiesFeed[index].author.username}.hashnode.dev/${data.data.storiesFeed[index].slug}',
+                              'https://${data.data!.storiesFeed![index].author!.username}.hashnode.dev/${data.data!.storiesFeed![index].slug}',
                         )));
           },
           child: BlogList(
-            commt: data.data.storiesFeed[index].replyCount,
-            img: data.data.storiesFeed[index].coverImage,
-            title: data.data.storiesFeed[index].title,
-            uname: data.data.storiesFeed[index].author.username,
-            name: data.data.storiesFeed[index].author.name,
+            commt: data.data!.storiesFeed![index].replyCount,
+            img: data.data!.storiesFeed![index].coverImage,
+            title: data.data!.storiesFeed![index].title,
+            uname: data.data!.storiesFeed![index].author!.username,
+            name: data.data!.storiesFeed![index].author!.name,
           ),
         );
       },

@@ -1,6 +1,3 @@
-import 'dart:io';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +7,6 @@ import 'package:hashnode/functions/locator.dart';
 import 'package:hashnode/style/colors.dart';
 import 'package:hashnode/style/style.dart';
 import 'package:hashnode/widget/noInt.dart';
-import 'package:hashnode/widget/notification_dialog.dart';
-import 'package:package_info/package_info.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'best.dart';
@@ -25,7 +20,7 @@ const playStoreUrl =
 var func = locator<CustomFunction>();
 
 class HomePgae extends StatefulWidget {
-  HomePgae({Key key}) : super(key: key);
+  HomePgae({Key? key}) : super(key: key);
 
   @override
   _HomePgaeState createState() => _HomePgaeState();
@@ -33,161 +28,12 @@ class HomePgae extends StatefulWidget {
 
 class _HomePgaeState extends State<HomePgae> with TickerProviderStateMixin {
   var _scaffoldKey = GlobalKey<ScaffoldState>();
-  TabController _nestedTabController;
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  TabController? _nestedTabController;
   bool chinternet = true, visinew = false;
-  String notiTitle, notiBody, notiImage, notiBtnName, notiBtnAction;
-
-  _register() {
-    _firebaseMessaging.getToken().then((token) => print(token));
-  }
-
-  void getMessage() {
-    _firebaseMessaging.configure(
-      onMessage: (Map<dynamic, dynamic> message) async {
-        notiTitle = message["data"]["title"];
-        notiBody = message["data"]["body"];
-        notiImage = message["data"]["image"];
-        notiBtnName = message["data"]["btnName"];
-        notiBtnAction = message["data"]["btnAction"];
-        return showDialog(
-            context: context,
-            builder: (_) {
-              return NotificationDialog(
-                title: '$notiTitle',
-                body: '$notiBody',
-                img: '$notiImage',
-                btnAction: '$notiBtnAction',
-                btnName: '$notiBtnName',
-              );
-            });
-      },
-      onResume: (Map<dynamic, dynamic> message) async {
-        notiTitle = message["data"]["title"];
-        notiBody = message["data"]["body"];
-        notiImage = message["data"]["image"];
-        notiBtnName = message["data"]["btnName"];
-        notiBtnAction = message["data"]["btnAction"];
-        return showDialog(
-            context: context,
-            builder: (_) {
-              return NotificationDialog(
-                title: '$notiTitle',
-                body: '$notiBody',
-                img: '$notiImage',
-                btnAction: '$notiBtnAction',
-                btnName: '$notiBtnName',
-              );
-            });
-      },
-      onLaunch: (Map<dynamic, dynamic> message) async {
-        notiTitle = message["data"]["title"];
-        notiBody = message["data"]["body"];
-        notiImage = message["data"]["image"];
-        notiBtnName = message["data"]["btnName"];
-        notiBtnAction = message["data"]["btnAction"];
-        return showDialog(
-            context: context,
-            builder: (_) {
-              return NotificationDialog(
-                title: '$notiTitle',
-                body: '$notiBody',
-                img: '$notiImage',
-                btnAction: '$notiBtnAction',
-                btnName: '$notiBtnName',
-              );
-            });
-      },
-    );
-  }
-
-  void versionCheck() async {
-    final PackageInfo info = await PackageInfo.fromPlatform();
-    double currentVersion =
-        double.parse(info.version.trim().replaceAll(".", ""));
-
-    final RemoteConfig remoteConfig = await RemoteConfig.instance;
-    try {
-      await remoteConfig.fetch();
-      await remoteConfig.activateFetched();
-      remoteConfig.getString('force_update_current_version');
-      double newVersion = double.parse(remoteConfig
-          .getString('force_update_current_version')
-          .trim()
-          .replaceAll(".", ""));
-
-      if (newVersion > currentVersion) {
-        setState(() {
-          visinew = true;
-        });
-        _showVersionDialog(context);
-      }
-    } on FetchThrottledException catch (exception) {
-      Text('$exception - ****************exception check');
-    } catch (exception) {}
-  }
-
-  _showVersionDialog(context) async {
-    await showDialog<String>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        String title = "New Update Available";
-        String message =
-            "There is a newer version of Hashnode available on playstore'' please update it now and view our new amazing features 😍.";
-        String btnLabel = "Update Now";
-        String btnLabelCancel = "Later";
-        return Platform.isIOS
-            ? CupertinoAlertDialog(
-                title: Text(title),
-                content: Text(message),
-                actions: <Widget>[
-                  TextButton(
-                    child: Text(btnLabel),
-                    onPressed: () => _launchURL(playStoreUrl),
-                  ),
-                  TextButton(
-                    child: Text(btnLabelCancel),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ],
-              )
-            : AlertDialog(
-                title: Text(title),
-                content: Text(message),
-                actions: <Widget>[
-                  TextButton(
-                    child: Text(btnLabel),
-                    onPressed: () => _launchURL(playStoreUrl),
-                  ),
-                  TextButton(
-                    child: Text(btnLabelCancel),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ],
-              );
-      },
-    );
-  }
-
-  _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
 
   @override
   void initState() {
     super.initState();
-    _register();
-    getMessage();
-    _firebaseMessaging.requestNotificationPermissions(
-        const IosNotificationSettings(sound: true, alert: true, badge: true));
-    _firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings setting) {});
-    versionCheck();
     _nestedTabController = TabController(length: 4, vsync: this);
     Future<int> a = CustomFunction().checkInternetConnection();
     a.then((value) {
@@ -207,7 +53,7 @@ class _HomePgaeState extends State<HomePgae> with TickerProviderStateMixin {
   @override
   void dispose() {
     super.dispose();
-    _nestedTabController.dispose();
+    _nestedTabController!.dispose();
   }
 
   @override

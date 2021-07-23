@@ -4,8 +4,8 @@ import 'models/bestmodel.dart';
 import 'models/newmodel.dart';
 
 abstract class BaseApi {
-  Future<FeaturedModel> featuredListApi();
-  Future<CommunityModel> communityListApi();
-  Future<BestModel> bestListApi();
-  Future<NewModel> newListApi();
+  Future<FeaturedModel?> featuredListApi();
+  Future<CommunityModel?> communityListApi();
+  Future<BestModel?> bestListApi();
+  Future<NewModel?> newListApi();
 }

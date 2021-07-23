@@ -4,13 +4,13 @@ import 'package:hashnode/style/colors.dart';
 import 'package:hashnode/style/style.dart';
 
 class BlogList extends StatelessWidget {
-  final String img;
-  final String title;
-  final String uname;
-  final int commt;
-  final String name;
+  final String? img;
+  final String? title;
+  final String? uname;
+  final int? commt;
+  final String? name;
   const BlogList(
-      {Key key,
+      {Key? key,
       @required this.commt,
       @required this.img,
       @required this.title,
@@ -30,7 +30,7 @@ class BlogList extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(10)),
         boxShadow: <BoxShadow>[
           BoxShadow(
-            color: Colors.grey[500].withOpacity(1.0),
+            color: Colors.grey[500]!.withOpacity(1.0),
             offset: Offset(1.1, 1.1),
             blurRadius: 10.0,
           ),
@@ -58,7 +58,7 @@ class BlogList extends StatelessWidget {
             padding: const EdgeInsets.only(left: 10, right: 0, top: 4),
             child: Column(
               children: <Widget>[
-                Text(title,
+                Text('$title',
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: AppTextStyle().titleStyle),
@@ -74,7 +74,7 @@ class BlogList extends StatelessWidget {
                           child: Row(
                             children: [
                               Text(
-                                name,
+                                '$name',
                                 style: GoogleFonts.poppins(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 18,
@@ -123,8 +123,8 @@ class BlogList extends StatelessWidget {
 
   getImg(BuildContext context) {
     return Image.network(
-      img,
-      frameBuilder: (BuildContext context, Widget child, int frame,
+      '$img',
+      frameBuilder: (BuildContext context, Widget child, int? frame,
           bool wasSynchronouslyLoaded) {
         return Container(
           width: MediaQuery.of(context).size.width,
@@ -138,8 +138,7 @@ class BlogList extends StatelessWidget {
           child: child,
         );
       },
-      loadingBuilder: (BuildContext context, Widget child,
-          ImageChunkEvent loadingProgress) {
+      loadingBuilder: (context, child, loadingProgress) {
         if (loadingProgress == null) return child;
         return Container(
           width: MediaQuery.of(context).size.width,
@@ -149,7 +148,7 @@ class BlogList extends StatelessWidget {
               strokeWidth: 1.1,
               value: loadingProgress.expectedTotalBytes != null
                   ? loadingProgress.cumulativeBytesLoaded /
-                      loadingProgress.expectedTotalBytes
+                      loadingProgress.expectedTotalBytes!.toInt()
                   : null,
             ),
           ),

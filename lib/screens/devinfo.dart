@@ -5,7 +5,7 @@ import 'package:hashnode/style/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactDev extends StatefulWidget {
-  ContactDev({Key key}) : super(key: key);
+  ContactDev({Key? key}) : super(key: key);
 
   @override
   _ContactDevState createState() => _ContactDevState();

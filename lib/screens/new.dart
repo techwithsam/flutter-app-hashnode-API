@@ -12,7 +12,7 @@ var callApi = locator<Api>();
 var func = locator<CustomFunction>();
 
 class NewPage extends StatefulWidget {
-  NewPage({Key key}) : super(key: key);
+  NewPage({Key? key}) : super(key: key);
 
   @override
   _NewPageState createState() => _NewPageState();
@@ -21,14 +21,14 @@ class NewPage extends StatefulWidget {
 class _NewPageState extends State<NewPage> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
-  Future newArc;
+  Future<NewModel>? newArc;
 
   @override
   void initState() {
     super.initState();
-    newArc = callApi.newListApi();
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => _refreshIndicatorKey.currentState.show());
+    newArc = callApi.newListApi() as Future<NewModel>?;
+    WidgetsBinding.instance!
+        .addPostFrameCallback((_) => _refreshIndicatorKey.currentState!.show());
   }
 
   @override
@@ -48,55 +48,51 @@ class _NewPageState extends State<NewPage> {
 
   Future<Null> _refresh() async {
     setState(() {
-      newArc = callApi.newListApi();
+      newArc = callApi.newListApi() as Future<NewModel>?;
     });
   }
 
   getApi() {
     return FutureBuilder<NewModel>(
-        future: newArc,
-        builder: (context, lists) {
-          switch (lists.connectionState) {
-            case ConnectionState.none:
-              return Text('');
-              break;
-            case ConnectionState.waiting:
-              return Center(child: CircularProgressIndicator(strokeWidth: 1.1));
-              break;
-            case ConnectionState.active:
-              return Text('');
-              break;
-            case ConnectionState.done:
-              if (lists.hasError) {
-                return Text(
-                  CustomText().apiErr,
+      future: newArc,
+      builder: (context, lists) {
+        switch (lists.connectionState) {
+          case ConnectionState.none:
+            return Text('');
+          case ConnectionState.waiting:
+            return Center(child: CircularProgressIndicator(strokeWidth: 1.1));
+          case ConnectionState.active:
+            return Text('');
+          case ConnectionState.done:
+            if (lists.hasError) {
+              return Text(
+                CustomText().apiErr,
+                style: AppTextStyle().errStyle,
+              );
+            } else if (lists.hasData) {
+              if (lists.data!.data == null) {
+                return Center(
+                    child: Text(
+                  CustomText().zeroAct,
                   style: AppTextStyle().errStyle,
-                );
-              } else if (lists.hasData) {
-                if (lists.data.data == null) {
-                  return Center(
-                      child: Text(
-                    CustomText().zeroAct,
-                    style: AppTextStyle().errStyle,
-                  ));
-                } else {
-                  return list(lists.data);
-                }
+                ));
               } else {
-                return Text(
-                  CustomText().noInt,
-                  style: AppTextStyle().errStyle,
-                );
+                return list(lists.data);
               }
-              break;
-          }
-          return Text('');
-        });
+            } else {
+              return Text(
+                CustomText().noInt,
+                style: AppTextStyle().errStyle,
+              );
+            }
+        }
+      },
+    );
   }
 
-  list(NewModel data) {
+  list(NewModel? data) {
     return ListView.builder(
-      itemCount: data.data.storiesFeed.length,
+      itemCount: data!.data!.storiesFeed!.length,
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
@@ -106,17 +102,17 @@ class _NewPageState extends State<NewPage> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => BlogViews(
-                          title: data.data.storiesFeed[index].title,
+                          title: data.data!.storiesFeed![index].title,
                           urli:
-                              'https://${data.data.storiesFeed[index].author.username}.hashnode.dev/${data.data.storiesFeed[index].slug}',
+                              'https://${data.data!.storiesFeed![index].author!.username}.hashnode.dev/${data.data!.storiesFeed![index].slug}',
                         )));
           },
           child: BlogList(
-            commt: data.data.storiesFeed[index].replyCount,
-            img: data.data.storiesFeed[index].coverImage,
-            title: data.data.storiesFeed[index].title,
-            uname: data.data.storiesFeed[index].author.username,
-            name: data.data.storiesFeed[index].author.name,
+            commt: data.data!.storiesFeed![index].replyCount,
+            img: data.data!.storiesFeed![index].coverImage,
+            title: data.data!.storiesFeed![index].title,
+            uname: data.data!.storiesFeed![index].author!.username,
+            name: data.data!.storiesFeed![index].author!.name,
           ),
         );
       },

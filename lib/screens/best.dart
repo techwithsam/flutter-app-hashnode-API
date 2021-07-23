@@ -10,7 +10,7 @@ import 'package:hashnode/widget/lists.dart';
 var callApi = locator<Api>();
 
 class BestPage extends StatefulWidget {
-  BestPage({Key key}) : super(key: key);
+  BestPage({Key? key}) : super(key: key);
 
   @override
   _BestPageState createState() => _BestPageState();
@@ -19,14 +19,14 @@ class BestPage extends StatefulWidget {
 class _BestPageState extends State<BestPage> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
-  Future<BestModel> best;
+  Future<BestModel>? best;
 
   @override
   void initState() {
     super.initState();
-    best = callApi.bestListApi();
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => _refreshIndicatorKey.currentState.show());
+    best = callApi.bestListApi() as Future<BestModel>?;
+    WidgetsBinding.instance!
+        .addPostFrameCallback((_) => _refreshIndicatorKey.currentState!.show());
   }
 
   @override
@@ -46,7 +46,7 @@ class _BestPageState extends State<BestPage> {
 
   Future<Null> _refresh() async {
     setState(() {
-      best = callApi.bestListApi();
+      best = callApi.bestListApi() as Future<BestModel>?;
     });
   }
 
@@ -57,21 +57,21 @@ class _BestPageState extends State<BestPage> {
           switch (lists.connectionState) {
             case ConnectionState.none:
               return Text('');
-              break;
+
             case ConnectionState.waiting:
               return Center(child: CircularProgressIndicator(strokeWidth: 1.1));
-              break;
+
             case ConnectionState.active:
               return Text('');
-              break;
+
             case ConnectionState.done:
               if (lists.hasError) {
-                return Text( 
+                return Text(
                   CustomText().apiErr,
                   style: AppTextStyle().errStyle,
-                ); 
+                );
               } else if (lists.hasData) {
-                if (lists.data.data == null) {
+                if (lists.data!.data == null) {
                   return Center(
                       child: Text(
                     CustomText().zeroAct,
@@ -86,35 +86,35 @@ class _BestPageState extends State<BestPage> {
                   style: AppTextStyle().errStyle,
                 );
               }
-              break;
           }
-          return Text('');
         });
   }
 
-  list(BestModel data) {
+  list(BestModel? data) {
     return ListView.builder(
-      itemCount: data.data.storiesFeed.length,
+      itemCount: data!.data!.storiesFeed!.length,
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         return GestureDetector(
           onTap: () {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => BlogViews(
-                          title: data.data.storiesFeed[index].title,
-                          urli:
-                              'https://${data.data.storiesFeed[index].author.username}.hashnode.dev/${data.data.storiesFeed[index].slug}',
-                        )));
+              context,
+              MaterialPageRoute(
+                builder: (context) => BlogViews(
+                  title: data.data!.storiesFeed![index].title,
+                  urli:
+                      'https://${data.data!.storiesFeed![index].author!.username}.hashnode.dev/${data.data!.storiesFeed![index].slug}',
+                ),
+              ),
+            );
           },
           child: BlogList(
-            commt: data.data.storiesFeed[index].replyCount,
-            img: data.data.storiesFeed[index].coverImage,
-            title: data.data.storiesFeed[index].title,
-            uname: data.data.storiesFeed[index].author.username,
-            name: data.data.storiesFeed[index].author.name,
+            commt: data.data!.storiesFeed![index].replyCount,
+            img: data.data!.storiesFeed![index].coverImage,
+            title: data.data!.storiesFeed![index].title,
+            uname: data.data!.storiesFeed![index].author!.username,
+            name: data.data!.storiesFeed![index].author!.name,
           ),
         );
       },

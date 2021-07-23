@@ -3,20 +3,17 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:hashnode/style/style.dart';
 
 class BlogViews extends StatefulWidget {
-  final String urli;
-  final String title;
-  BlogViews({Key key, @required this.title, @required this.urli})
+  final String? urli;
+  final String? title;
+  BlogViews({Key? key, @required this.title, @required this.urli})
       : super(key: key);
 
   @override
-  _BlogViewsState createState() => _BlogViewsState(title: title, urli: urli);
+  _BlogViewsState createState() => _BlogViewsState();
 }
 
 class _BlogViewsState extends State<BlogViews> {
-  final String urli;
-  final String title;
-  _BlogViewsState({@required this.title, @required this.urli});
-  InAppWebViewController webView;
+  InAppWebViewController? webView;
   String url = "";
   double progress = 0;
 
@@ -25,17 +22,14 @@ class _BlogViewsState extends State<BlogViews> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text(
-          title,
-          style: AppTextStyle().appbarStyle,
-        ),
+        title: Text('${widget.title}', style: AppTextStyle().appbarStyle),
         centerTitle: true,
         elevation: 0,
         actions: [
           IconButton(
             onPressed: () {
               if (webView != null) {
-                webView.reload();
+                webView!.reload();
               }
             },
             icon: Icon(Icons.refresh),
@@ -53,24 +47,20 @@ class _BlogViewsState extends State<BlogViews> {
               : Container(),
           Expanded(
             child: InAppWebView(
-              initialUrl: urli,
-              initialHeaders: {},
+              initialUrlRequest: URLRequest(url: Uri.parse('${widget.urli}')),
               initialOptions: InAppWebViewGroupOptions(
-                  crossPlatform: InAppWebViewOptions(
-                debuggingEnabled: true,
-              )),
+                  crossPlatform: InAppWebViewOptions()),
               onWebViewCreated: (InAppWebViewController controller) {
                 webView = controller;
               },
-              onLoadStart: (InAppWebViewController controller, String url) {
+              onLoadStart: (controller, url) {
                 setState(() {
-                  this.url = url;
+                  this.url = '$url';
                 });
               },
-              onLoadStop:
-                  (InAppWebViewController controller, String url) async {
+              onLoadStop: (controller, url) async {
                 setState(() {
-                  this.url = url;
+                  this.url = '$url';
                 });
               },
               onProgressChanged:
