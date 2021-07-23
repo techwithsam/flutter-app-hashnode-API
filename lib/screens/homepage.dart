@@ -142,11 +142,11 @@ class _HomePgaeState extends State<HomePgae> with TickerProviderStateMixin {
                 title: Text(title),
                 content: Text(message),
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text(btnLabel),
                     onPressed: () => _launchURL(playStoreUrl),
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text(btnLabelCancel),
                     onPressed: () => Navigator.pop(context),
                   ),
@@ -156,11 +156,11 @@ class _HomePgaeState extends State<HomePgae> with TickerProviderStateMixin {
                 title: Text(title),
                 content: Text(message),
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text(btnLabel),
                     onPressed: () => _launchURL(playStoreUrl),
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text(btnLabelCancel),
                     onPressed: () => Navigator.pop(context),
                   ),
