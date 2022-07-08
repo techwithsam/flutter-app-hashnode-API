@@ -25,7 +25,7 @@ class _BestPageState extends State<BestPage> {
   void initState() {
     super.initState();
     best = callApi.bestListApi() as Future<BestModel>?;
-    WidgetsBinding.instance!
+    WidgetsBinding.instance
         .addPostFrameCallback((_) => _refreshIndicatorKey.currentState!.show());
   }
 

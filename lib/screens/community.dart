@@ -25,7 +25,7 @@ class _CommunityPageState extends State<CommunityPage> {
   void initState() {
     super.initState();
     community = callAPI.communityListApi() as Future<CommunityModel>?;
-    WidgetsBinding.instance!
+    WidgetsBinding.instance
         .addPostFrameCallback((_) => _refreshIndicatorKey.currentState!.show());
   }
 

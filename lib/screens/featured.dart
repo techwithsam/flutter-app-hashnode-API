@@ -25,7 +25,7 @@ class _FeaturedPageState extends State<FeaturedPage> {
   void initState() {
     super.initState();
     featured = callApi.featuredListApi() as Future<FeaturedModel>?;
-    WidgetsBinding.instance!
+    WidgetsBinding.instance
         .addPostFrameCallback((_) => _refreshIndicatorKey.currentState!.show());
   }
 

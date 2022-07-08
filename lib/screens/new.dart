@@ -27,7 +27,7 @@ class _NewPageState extends State<NewPage> {
   void initState() {
     super.initState();
     newArc = callApi.newListApi() as Future<NewModel>?;
-    WidgetsBinding.instance!
+    WidgetsBinding.instance
         .addPostFrameCallback((_) => _refreshIndicatorKey.currentState!.show());
   }
 
